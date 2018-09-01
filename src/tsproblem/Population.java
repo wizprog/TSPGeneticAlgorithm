@@ -4,13 +4,14 @@ public class Population {
 	
 	Tour[] tourPopulation;
 	
-	public Population(int size) {
+	public Population(int size, boolean create) {
 		tourPopulation = new Tour[size];
-		
-		for (int i=0; i<size; i++) {
-			Tour t = new Tour();
-			t.generateTour();
-		    tourPopulation[i] = t;	
+		if (create) {
+			for (int i=0; i<size; i++) {
+				Tour t = new Tour();
+				t.generateTour();
+			    tourPopulation[i] = t;
+			}
 		}
 	}
 	
@@ -34,7 +35,10 @@ public class Population {
 			tourPopulation[i].calucalteDistance();
 			tourPopulation[i].calculateFitness();
 			double x = tourPopulation[i].getFitness();
-			if (x>bestFit) best = tourPopulation[i];
+			if (x>bestFit) {
+				best = tourPopulation[i];
+				bestFit = x;
+			}
 		}
 		
 		return best;

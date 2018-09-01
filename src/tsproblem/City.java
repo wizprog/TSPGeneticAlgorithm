@@ -31,4 +31,11 @@ public class City {
 		return Math.sqrt( Math.pow( Math.abs(c.getX() - this.x), 2) +  Math.pow( Math.abs(c.getY() - this.y), 2) );
 	}
 
+	@Override
+	public String toString() {
+		return "City [x=" + x + ", y=" + y + "]";
+	}
+	
+	
+
 }

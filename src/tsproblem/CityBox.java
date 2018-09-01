@@ -18,5 +18,4 @@ public class CityBox {
 		return list.size();
 	}
 	
-	
 }
