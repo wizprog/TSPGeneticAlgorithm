@@ -18,4 +18,8 @@ public class CityBox {
 		return list.size();
 	}
 	
+	public static void clearCities() {
+		list.clear();
+	}
+	
 }

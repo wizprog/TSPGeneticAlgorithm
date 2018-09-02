@@ -5,15 +5,26 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Event;
 import java.awt.Frame;
+import java.awt.Label;
 import java.awt.Panel;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class Evolution extends Frame{
 
 	private static final long serialVersionUID = 1L;
+	public static int count = 10;
+	public static boolean cityCreator = false;
+	public static boolean startBtn = false;
 	
-	Button btn1 = new Button("Start");
+	private Draw main= new Draw();
+	
+	Button btn1 = new Button("Create");
+	Button btn2 = new Button("Start");
 	TextField txt1 = new TextField("Number of cities");
+	public Label l = new Label();
 	
 	public Evolution() {
 		super("Traveling salesman problem");
@@ -26,10 +37,82 @@ public class Evolution extends Frame{
 		Panel p = new Panel();
 		p.setSize(WIDTH, 800);
 		p.setBackground(Color.GRAY);
-		btn1.setSize(50, 50);
+		
+		btn1.addActionListener(
+			new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e)
+				{
+					 if (txt1.getText().matches("-?\\d+(\\.\\d+)?")) {
+						 	CityBox.clearCities();
+						 	count = Integer.parseInt(txt1.getText());
+						 	for (int i=0; i<count; i++) {
+						 		int x = (int )(Math.random() * main.getWidth()-20 + 20);
+						 		int y = (int )(Math.random() * main.getHeight()-20 + 20 );
+						 		City city = new City(x, y);
+						 		CityBox.addCity(city);
+						 	}
+						l.setText("Cities created");
+						cityCreator = true;
+						main.repaint();
+					 } else {
+						 l.setText("Enter a number");
+					 }
+					
+				}
+			  }
+		);
+		
+		btn2.addActionListener(
+				new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new Thread(main).start();
+			/*		if (cityCreator) {
+						startBtn = true;
+						GeneticAlgorithmClass GA = new GeneticAlgorithmClass();
+						Population pop = new Population(20,true);
+						main.setPop(pop);
+						main.repaint();
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						System.out.println("Initial distance: " + pop.getBestTour().getDistance());
+						
+						 pop = GA.evolvePopulation(pop);
+					        for (int i = 0; i < 100; i++) {
+					        	try {
+									Thread.sleep(100);
+								} catch (InterruptedException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+					            pop = GA.evolvePopulation(pop);	  
+					            main.setPop(pop);
+					            main.repaint();
+					        }
+					        System.out.println("Finished");
+					        System.out.println("Final distance: " + pop.getBestTour().getDistance());
+					        System.out.println("Solution:");
+					        System.out.println(pop.getBestTour());
+					        
+					    	startBtn = false;
+					} 
+						else l.setText("No cities to work with");  */
+					} 
+				  }  
+			);
+		
 		p.add(btn1);
 		p.add(txt1);
+		p.add(btn2);
+		p.add(l);
+		add(main);
 		add(p,BorderLayout.NORTH);
+		
 	}
 	
 	public boolean handleEvent(Event e) {
@@ -41,13 +124,10 @@ public class Evolution extends Frame{
 	}
 
 	public static void main(String[] args) {
-	//	Evolution e = new Evolution();
-		
-		
-		GeneticAlgorithmClass GA = new GeneticAlgorithmClass();
+		Evolution e = new Evolution();
 
         // Create and add our cities
-        City city = new City(60, 200);
+   /*     City city = new City(60, 200);
         CityBox.addCity(city);
         City city2 = new City(180, 200);
         CityBox.addCity(city2);
@@ -87,22 +167,7 @@ public class Evolution extends Frame{
         CityBox.addCity(city19);
         City city20 = new City(160, 20);
         CityBox.addCity(city20);  
-
-        // Initialize population
-        Population pop = new Population(20,true);
-        System.out.println("Initial distance: " + pop.getBestTour().getDistance());
-
-        // Evolve population for 100 generations
-       pop = GA.evolvePopulation(pop);
-        for (int i = 0; i < 100; i++) {
-            pop = GA.evolvePopulation(pop);
-        }
-
-        // Print final results
-        System.out.println("Finished");
-        System.out.println("Final distance: " + pop.getBestTour().getDistance());
-        System.out.println("Solution:");
-        System.out.println(pop.getBestTour());
+*/
     }
 		
 
