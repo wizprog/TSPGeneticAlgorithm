@@ -40,11 +40,12 @@ public class Evolution extends Frame{
 	public void addComponents() {
 		Panel p = new Panel();
 		Panel p1 = new Panel();
+		p1.setLayout(null);
 		
-		p.setSize(WIDTH, 800);
+		p.setSize(WIDTH, 30);
 		p.setBackground(Color.GRAY);
 		
-		p1.setSize(WIDTH, 800);
+		p1.setSize(WIDTH, 30);
 		p1.setBackground(Color.GRAY);
 		
 		btn1.addActionListener(
@@ -88,8 +89,9 @@ public class Evolution extends Frame{
 		p.add(txt1,BorderLayout.EAST);
 		p.add(btn2);
 		
-		start.setBounds(1, 1, 40,20);
-		finish.setBounds(1, 1, 40,20);
+		start.setBounds(this.getWidth() / 3 - 100, 1, 180,20);
+		finish.setBounds((this.getWidth()  / 3)+100, 1, 180,20);
+		evolve.setBounds((this.getWidth()  / 3)+300, 1, 200, 20);
 		p1.add(start);
 		p1.add(finish);
 		p1.add(evolve);
