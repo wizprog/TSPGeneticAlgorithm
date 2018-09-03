@@ -14,37 +14,53 @@ public class Draw extends Component implements Runnable {
 	public static final Color fgC = new Color(0xffffff);	// white
 	
 	public Population pop;
-	private boolean started = false;
+	public static boolean started = false;
 	
 	@Override
 	public void run() {
-		
-		started = true;
-		GeneticAlgorithmClass GA = new GeneticAlgorithmClass();
-		pop = new Population(20,true);
-	    System.out.println("Initial distance: " + pop.getBestTour().getDistance());
-
-	        // Evolve population for 100 generations
-	    pop = GA.evolvePopulation(pop);
-	    repaint();
-	    try {
-			Thread.sleep(100);
-		    for (int i = 0; i < 1000; i++) {
-		         pop = GA.evolvePopulation(pop);	
-		         repaint();
-		         Thread.sleep(100);
-		      }
+		if (Evolution.cityCreator) {
+			Evolution.btn1.setEnabled(false);
+			Evolution.btn2.setEnabled(false);
 			
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    started = false;
-
-	   System.out.println("Finished");
-	   System.out.println("Final distance: " + pop.getBestTour().getDistance());
-	   System.out.println("Solution:");
-	   System.out.println(pop.getBestTour());  
+			started = true;
+			GeneticAlgorithmClass GA = new GeneticAlgorithmClass();
+			pop = new Population(20,true);
+			
+		    System.out.println("Initial distance: " +Math.round( pop.getBestTour().getDistance()));
+		    
+		    Evolution.start.setText("Initial distance: "+ Math.round(pop.getBestTour().getDistance()));
+		    Evolution.finish.setText("Final distance: Calculating");
+	
+	// Evolve population for 500 generations
+		    pop = GA.evolvePopulation(pop);
+		    repaint();
+		    try {
+				Thread.sleep(100);
+			    for (int i = 0; i < 500; i++) {
+			         pop = GA.evolvePopulation(pop);	
+			         if (i%10 == 0) Evolution.evolve.setText("Generation "+ i +" out of 500");
+			         repaint();
+			         Thread.sleep(100);
+			      }
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    started = false;
+		    
+		    Evolution.evolve.setText("Generation 500 out of 500");
+		    Evolution.btn1.setEnabled(true);
+			Evolution.btn2.setEnabled(true);
+	
+		   Evolution.finish.setText("Final distance: " +Math.round( pop.getBestTour().getDistance() ));
+		   System.out.println("Finished");
+		   System.out.println("Final distance: " + Math.round(pop.getBestTour().getDistance()));
+		   System.out.println("Solution:");
+		   System.out.println(pop.getBestTour());  
+	   } else {
+		  Evolution.l.setText("Error request");
+	   }
 
 	}
 	
@@ -67,9 +83,7 @@ public class Draw extends Component implements Runnable {
 		}
 		
 		g2.setColor(Color.PINK);
-		if (CityBox.numOfCities() > 0)
-		//	g2.drawLine(CityBox.getCity(1).getX()+5, CityBox.getCity(1).getY()+5, CityBox.getCity(2).getX()+5, CityBox.getCity(2).getY()+5);
-		
+		if (CityBox.numOfCities() > 0)		
 		if (started) paintConections(g2);
 		
 	}
